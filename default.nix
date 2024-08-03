@@ -11,7 +11,7 @@ pkgs.haskellPackages.developPackage {
       fourmolu
 
       # Libraries
-      base
+      # base_4_20_0_0
       wreq
       text
       aeson

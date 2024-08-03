@@ -22,7 +22,7 @@ executable learn
     -- other-extensions:
 
     build-depends:
-      base  ^>=4.20.0.1,
+      base  ^>=4.20.0,
       wreq  ^>=0.5.4.3,
       text  ^>=2.0.2,
       aeson ^>=2.2.3.0,

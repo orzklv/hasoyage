@@ -2,9 +2,9 @@
 
 pkgs.mkShell ({
   buildInputs = with pkgs; [
-    haskell.compiler.ghc94
+    haskell.compiler.ghc981
     cabal-install
-    (haskell-language-server.override { supportedGhcVersions = [ "94" ]; })
+    (haskell-language-server.override { supportedGhcVersions = [ "98" ]; })
     haskellPackages.cabal-fmt
     haskellPackages.fourmolu
     libz
