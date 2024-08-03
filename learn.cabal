@@ -1,0 +1,29 @@
+cabal-version:      3.0
+name:               learn
+version:            0.1.0.0
+synopsis: Just shawarma
+description: Shawarma learning
+homepage:           https://orzklv.uz
+license:            MIT
+license-file:       LICENSE
+author:             Orzklv
+maintainer:         sakhib@orzklv.uz
+category:           Learning
+build-type:         Simple
+extra-doc-files:    CHANGELOG.md
+
+common warnings
+    ghc-options: -Wall
+
+executable learn
+    import:           warnings
+    main-is:          Main.hs
+    -- other-modules:
+    -- other-extensions:
+
+    build-depends:
+      base ^>=4.17.2.1,
+      wreq ^>=0.5.4.3
+
+    hs-source-dirs:   app
+    default-language: GHC2021
