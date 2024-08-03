@@ -6,7 +6,7 @@ module Main where
 import Control.Concurrent.Async
 import Control.Lens
 import Data.Aeson
-import Data.Text (Text)
+import Data.Text (Text, pack)
 import Data.Text.IO qualified as T
 import GHC.Generics
 import Network.Wreq
@@ -39,10 +39,12 @@ instance FromJSON Language
 main :: IO ()
 main = do
   lngs <- getLanguages
-  print lngs
+
+  print "What's the text that you want to translate: "
+  text <- getLine
 
   results <- forConcurrently lngs $ \lang -> do
-    rest <- translateText "en" "Haskell is an interesting programming language." (code lang)
+    rest <- translateText "en" (pack text) (code lang)
     pure (name lang <> ": " <> rest)
 
   mapM_ T.putStrLn results
