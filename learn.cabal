@@ -1,6 +1,6 @@
 cabal-version:      3.0
 name:               learn
-version:            0.1.0.0
+version:            0.1.0.1
 synopsis: Just shawarma
 description: Shawarma learning
 homepage:           https://orzklv.uz

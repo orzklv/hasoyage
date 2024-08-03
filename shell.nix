@@ -13,4 +13,4 @@ pkgs.mkShell ({
   shellHook = ''
     echo "~Environment for Haskell is ready~"
   '';
-});
+})
