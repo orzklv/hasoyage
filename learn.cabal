@@ -27,6 +27,7 @@ executable learn
       text  ^>=2.0.2,
       aeson ^>=2.2.3.0,
       lens  ^>=5.3.2,
+      async ^>=2.2.5,
 
     hs-source-dirs:   app
     default-language: GHC2021
