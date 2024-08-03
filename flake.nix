@@ -2,26 +2,52 @@
   description = "Haskell MOOC: Cabal Edition";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils }: flake-utils.lib.eachDefaultSystem (system:
+  outputs = { self, nixpkgs, flake-utils, ... } @ inputs:
     let
-      pkgs = nixpkgs.legacyPackages.${system};
+      lib = nixpkgs.lib;
+      systems = [
+        "aarch64-linux"
+        "x86_64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
+
+      forAllSystems = nixpkgs.lib.genAttrs systems;
+      forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+
+      pkgsFor = lib.genAttrs systems (system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        });
+
+      devShellFor = system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+          script = import ./shell.nix { inherit pkgs; };
+        in
+        script;
     in
     {
-      devShells.default = pkgs.mkShell ({
-        buildInputs = with pkgs; [
-          haskell.compiler.ghc94
-          cabal-install
-          (haskell-language-server.override { supportedGhcVersions = [ "94" ]; })
-          haskellPackages.cabal-fmt
-          haskellPackages.fourmolu
-          libz
-        ];
-      });
-    }
-  );
-}
+      # Nix script formatter
+      formatter =
+        forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
+      # Development environment
+      devShells = lib.mapAttrs (system: _: devShellFor system) (lib.genAttrs systems { });
+
+
+      # Output package
+      packages = forAllSystems (system: {
+        default = pkgsFor.${system}.callPackage ./. { };
+      });
+    };
+}
