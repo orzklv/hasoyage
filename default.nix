@@ -11,7 +11,6 @@ pkgs.haskellPackages.developPackage {
       fourmolu
 
       # Libraries
-      # base_4_20_0_0
       wreq
       text
       aeson
@@ -19,4 +18,7 @@ pkgs.haskellPackages.developPackage {
       async
     ]
     );
+  overrides = self: super: {
+    ghc = pkgs.haskell.compiler.ghc981;
+  };
 }

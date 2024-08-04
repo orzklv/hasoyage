@@ -2,8 +2,8 @@
   description = "Haskell MOOC: Cabal Edition";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -42,8 +42,7 @@
         forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
       # Development environment
-      devShells = lib.mapAttrs (system: _: devShellFor system) (lib.genAttrs systems { });
-
+      devShell = lib.mapAttrs (system: _: devShellFor system) (lib.genAttrs systems { });
 
       # Output package
       packages = forAllSystems (system: {
